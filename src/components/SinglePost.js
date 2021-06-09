@@ -14,9 +14,19 @@ export default function SinglePost() {
 
   useEffect(() => {
     sanityClient
-      .fetch(
-        '*[slug.current == "${slug}"]{title,_id,slug,mainImage{asset->{_id,url}},body,"name": author->none,"authorImage":author->image}'
-      )
+      .fetch(`*[slug.current == "${slug}"]{
+        title,
+        _id,
+        mainImage{
+          asset->{
+            _id,
+            url
+          }
+        },
+        body,
+        "name": author->name,
+        "authorImage": author->image
+      }`)
       .then((data) => setSinglePost(data[0]))
       .catch(console.error);
   }, [slug]);
